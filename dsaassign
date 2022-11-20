@@ -1,0 +1,95 @@
+#sorted array to binary search tree
+class Node1(object):
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+
+def arraytobst(arraynums):
+    if not arraynums:
+        return None
+    mid = len(arraynums)//2
+    node = Node1(arraynums[mid])
+    node.left = arraytobst(arraynums[:mid])
+    node.right = arraytobst(arraynums[mid+1:])
+    return node
+
+def preOrder(node): 
+    if not node: 
+        return      
+    print(node.key)
+    preOrder(node.left) 
+    preOrder(node.right)   
+
+arraynums = [11,56,77,89,99]
+
+print("Original array:")
+print(arraynums)
+result = arraytobst(arraynums)
+print("\nArray to a height balanced BST:")
+print(preOrder(result))
+
+#deleting an element from array
+arraynums.pop()
+print("Deleting the last element from array-",arraynums)
+#deleting element from BST
+class TreeNode(object):
+    def __init__(self, x):
+         self.val = x
+         self.left = None
+         self.right = None
+
+def delete_Node(root, key):
+  # if root doesn't exist, just return it
+	if not root: 
+		return root
+	# Find the node in the left subtree	if key value is less than root value
+	if root.val > key: 
+		root.left = delete_Node(root.left, key)
+	# Find the node in right subtree if key value is greater than root value, 
+	elif root.val < key: 
+		root.right= delete_Node(root.right, key)
+	# Delete the node if root.value == key
+	else: 
+	# If there is no right children delete the node and new root would be root.left
+		if not root.right:
+			return root.left
+	# If there is no left children delete the node and new root would be root.right	
+		if not root.left:
+			return root.right
+  # If both left and right children exist in the node replace its value with 
+  # the minmimum value in the right subtree. Now delete that minimum node
+  # in the right subtree
+		temp_val = root.right
+		mini_val = temp_val.val
+		while temp_val.left:
+			temp_val = temp_val.left
+			mini_val = temp_val.val
+  # Delete the minimum node in right subtree
+		root.right = deleteNode(root.right,root.val)
+	return root
+
+def preOrder(node): 
+    if not node: 
+        return      
+    print(node.val)
+    preOrder(node.left) 
+    preOrder(node.right)   
+    
+root = TreeNode(11)  
+root.left = TreeNode(56)  
+root.right = TreeNode(77) 
+root.left.left = TreeNode(89)  
+root.left.right = TreeNode(99)  
+print("Original node:")
+print(preOrder(root))
+result = delete_Node(root, 77)
+print("After deleting specified node:")
+print(preOrder(result))
+
+#1. deleting an element fom an array 
+#space complexity is O(1)
+    
+#2. deleting an node from BST
+ #  The space complexity of a binary search tree is O(1)
+ #  in both the average and the worst cases.
